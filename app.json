@@ -17,9 +17,10 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
+    // @TODO not support ios
+    // "ios": {
+    //   "supportsTablet": true
+    // },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
