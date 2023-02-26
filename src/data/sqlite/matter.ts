@@ -12,7 +12,7 @@ export function SqliteDataAccessMatter(
       return new Promise((resolve, reject) => {
         db.transaction(
           (tx) => {
-            tx.executeSql("select * from matters", [], (_, resultSet) => {
+            tx.executeSql("select * from matters;", [], (_, resultSet) => {
               resolve(resultSet.rows._array);
             });
           },
