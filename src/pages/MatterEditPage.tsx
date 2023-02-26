@@ -3,7 +3,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WithHeaderNavigationProp } from "../routes/type";
 import { useSetAtom } from "jotai/react";
 import { HeaderStore } from "../store";
-import { HEADER_TITLE_MATTER_CREATE } from "../modules/text";
+import { HEADER_TITLE_MATTER_CREATE } from "../utils/text";
 
 export default function MatterEditPage() {
   /**

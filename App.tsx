@@ -6,6 +6,8 @@ import Footer from "./src/components/Footer";
 import MatterEditPage from "./src/pages/MatterEditPage";
 import MatterPage from "./src/pages/MatterPage";
 import { commonScreenOptions } from "./src/routes";
+import { useState, useEffect } from "react";
+import { useSqliteDataAccess } from "./src/data";
 
 const WithHeader = createNativeStackNavigator();
 const WithFooter = createNativeStackNavigator();
@@ -22,17 +24,34 @@ function FirstView() {
 }
 
 export default function App() {
+  /**
+   * init operations
+   */
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    // @FIX may need cleanup?
+    useSqliteDataAccess().then(() => {
+      setReady(true);
+    });
+  }, []);
+
   return (
     <View style={styles.app}>
       {/* @FIX if use expo StatusBar, app will ignore StatusBar space */}
       <StatusBar></StatusBar>
-      <Header></Header>
-      <NavigationContainer>
-        <WithHeader.Navigator screenOptions={commonScreenOptions}>
-          <WithHeader.Screen name="FirstView" component={FirstView} />
-          <WithHeader.Screen name="MatterEdit" component={MatterEditPage} />
-        </WithHeader.Navigator>
-      </NavigationContainer>
+      {ready ? (
+        <>
+          <Header></Header>
+          <NavigationContainer>
+            <WithHeader.Navigator screenOptions={commonScreenOptions}>
+              <WithHeader.Screen name="FirstView" component={FirstView} />
+              <WithHeader.Screen name="MatterEdit" component={MatterEditPage} />
+            </WithHeader.Navigator>
+          </NavigationContainer>
+        </>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 }

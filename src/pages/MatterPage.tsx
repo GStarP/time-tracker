@@ -3,7 +3,10 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WithHeaderNavigationProp } from "../routes/type";
 import { useSetAtom } from "jotai/react";
 import { HeaderStore } from "../store";
-import { HEADER_TITLE_MATTER } from "../modules/text";
+import { HEADER_TITLE_MATTER } from "../utils/text";
+import { useEffect, useState } from "react";
+import { DA } from "../data";
+import { Matter } from "../data/matter";
 
 export default function MatterPage() {
   /**
@@ -17,6 +20,16 @@ export default function MatterPage() {
     setHeaderActions(MatterPageHeaderActions);
   });
 
+  /**
+   * matters
+   */
+  const [matters, setMatters] = useState<Matter[]>([]);
+  useEffect(() => {
+    DA()
+      .getAllMatter()
+      .then((res) => setMatters(res));
+  }, []);
+
   return (
     <View>
       <Text>Matter</Text>
@@ -24,6 +37,9 @@ export default function MatterPage() {
         title="Matter Edit"
         onPress={() => navigation.navigate("MatterEdit")}
       ></Button>
+      {matters.map((matter) => (
+        <Text key={"matter-" + matter.matterId}>{JSON.stringify(matter)}</Text>
+      ))}
     </View>
   );
 }
