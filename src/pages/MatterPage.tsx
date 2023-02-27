@@ -7,6 +7,7 @@ import { HEADER_TITLE_MATTER } from "../utils/text";
 import { useEffect, useState } from "react";
 import { DA } from "../data";
 import { Matter } from "../data/matter";
+import { FooterState, FooterStore } from "../store/footer";
 
 export default function MatterPage() {
   /**
@@ -14,10 +15,10 @@ export default function MatterPage() {
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
   const setHeaderTitle = useSetAtom(HeaderStore.title);
-  const setHeaderActions = useSetAtom(HeaderStore.actions);
+  const setFooterState = useSetAtom(FooterStore.state);
   useFocusEffect(() => {
     setHeaderTitle(HEADER_TITLE_MATTER);
-    setHeaderActions(MatterPageHeaderActions);
+    setFooterState(FooterState.MATTER);
   });
 
   /**
@@ -40,14 +41,6 @@ export default function MatterPage() {
       {matters.map((matter) => (
         <Text key={"matter-" + matter.matterId}>{JSON.stringify(matter)}</Text>
       ))}
-    </View>
-  );
-}
-
-function MatterPageHeaderActions() {
-  return (
-    <View>
-      <Text>No Actions</Text>
     </View>
   );
 }
