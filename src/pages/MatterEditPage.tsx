@@ -10,11 +10,15 @@ export default function MatterEditPage() {
    * navigation
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
+
+  /**
+   * set header options
+   */
+  const setHeaderShowBack = useSetAtom(HeaderStore.showBack);
   const setHeaderTitle = useSetAtom(HeaderStore.title);
-  const setHeaderActions = useSetAtom(HeaderStore.actions);
   useFocusEffect(() => {
+    setHeaderShowBack(true);
     setHeaderTitle(HEADER_TITLE_MATTER_CREATE);
-    setHeaderActions(MatterEditPageHeaderActions);
   });
 
   return (
@@ -24,14 +28,6 @@ export default function MatterEditPage() {
         title="Matter"
         onPress={() => navigation.navigate("FirstView", { screen: "Matter" })}
       ></Button>
-    </View>
-  );
-}
-
-function MatterEditPageHeaderActions() {
-  return (
-    <View>
-      <Button title="Close"></Button>
     </View>
   );
 }

@@ -11,10 +11,21 @@ export default function SettingPage() {
    * navigation
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
+
+  /**
+   * set header options
+   */
+  const setHeaderShowBack = useSetAtom(HeaderStore.showBack);
   const setHeaderTitle = useSetAtom(HeaderStore.title);
+  useFocusEffect(() => {
+    setHeaderShowBack(false);
+    setHeaderTitle(HEADER_TITLE_SETTING);
+  });
+  /**
+   * set footer options
+   */
   const setFooterState = useSetAtom(FooterStore.state);
   useFocusEffect(() => {
-    setHeaderTitle(HEADER_TITLE_SETTING);
     setFooterState(FooterState.SETTING);
   });
 

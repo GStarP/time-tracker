@@ -11,10 +11,21 @@ export default function StatsPage() {
    * navigation
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
+
+  /**
+   * set header options
+   */
+  const setHeaderShowBack = useSetAtom(HeaderStore.showBack);
   const setHeaderTitle = useSetAtom(HeaderStore.title);
+  useFocusEffect(() => {
+    setHeaderShowBack(false);
+    setHeaderTitle(HEADER_TITLE_STATS);
+  });
+  /**
+   * set footer options
+   */
   const setFooterState = useSetAtom(FooterStore.state);
   useFocusEffect(() => {
-    setHeaderTitle(HEADER_TITLE_STATS);
     setFooterState(FooterState.STATS);
   });
 

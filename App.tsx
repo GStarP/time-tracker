@@ -56,25 +56,28 @@ export default function App() {
       {/* @FIX if use expo StatusBar, app will ignore StatusBar space */}
       <StatusBar></StatusBar>
       {ready ? (
-        <>
+        <NavigationContainer>
           <Header></Header>
-          <NavigationContainer>
-            <WithHeader.Navigator screenOptions={commonScreenOptions}>
-              <WithHeader.Screen
-                name={FIRST_VIEW_PAGE_NAME}
-                component={FirstView}
-              />
-              <WithHeader.Screen
-                name={MATTER_EDIT_PAGE_NAME}
-                component={MatterEditPage}
-              />
-              <WithHeader.Screen
-                name={TIMER_CREATE_PAGE_NAME}
-                component={TimerCreatePage}
-              />
-            </WithHeader.Navigator>
-          </NavigationContainer>
-        </>
+          <WithHeader.Navigator
+            screenOptions={{
+              ...commonScreenOptions,
+              animation: "slide_from_right",
+            }}
+          >
+            <WithHeader.Screen
+              name={FIRST_VIEW_PAGE_NAME}
+              component={FirstView}
+            />
+            <WithHeader.Screen
+              name={MATTER_EDIT_PAGE_NAME}
+              component={MatterEditPage}
+            />
+            <WithHeader.Screen
+              name={TIMER_CREATE_PAGE_NAME}
+              component={TimerCreatePage}
+            />
+          </WithHeader.Navigator>
+        </NavigationContainer>
       ) : (
         <Text>Loading...</Text>
       )}

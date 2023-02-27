@@ -14,10 +14,21 @@ export default function MatterPage() {
    * navigation
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
+
+  /**
+   * set header options
+   */
+  const setHeaderShowBack = useSetAtom(HeaderStore.showBack);
   const setHeaderTitle = useSetAtom(HeaderStore.title);
+  useFocusEffect(() => {
+    setHeaderShowBack(false);
+    setHeaderTitle(HEADER_TITLE_MATTER);
+  });
+  /**
+   * set footer options
+   */
   const setFooterState = useSetAtom(FooterStore.state);
   useFocusEffect(() => {
-    setHeaderTitle(HEADER_TITLE_MATTER);
     setFooterState(FooterState.MATTER);
   });
 

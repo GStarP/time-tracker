@@ -5,8 +5,9 @@ import {
 } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLOR_BLACK } from "../styles/const";
+import { WithReactNativeStyleProps } from ".";
 
-export interface IconButtonProps {
+export interface IconButtonProps extends WithReactNativeStyleProps {
   iconName: string;
   iconSize?: number;
   iconColor?: string;
@@ -17,6 +18,7 @@ export interface IconButtonProps {
 }
 
 export default function IconButton({
+  style,
   iconName,
   iconSize,
   iconColor,
@@ -34,7 +36,7 @@ export default function IconButton({
 
   return (
     <TouchableOpacity
-      style={[styles.button]}
+      style={[styles.button, ...(style ?? [])]}
       onPress={onPress}
       activeOpacity={0.6}
     >
