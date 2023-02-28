@@ -1,1 +1,1 @@
-export { HeaderStore } from "./header";
+export * from "./footer";

@@ -2,22 +2,29 @@ import { View, StyleSheet, Text } from "react-native";
 import { COLOR_PRIMARY, COLOR_WHITE } from "../styles/const";
 import IconButton from "../ui/IconButton";
 import { useNavigation } from "@react-navigation/native";
-import { WithHeaderNavigationProp } from "../routes/type";
+import { MainRouterNavigationProp } from "../routes/type";
 
 export interface HeaderProps {
-  title: string;
   showBack?: boolean;
+  title: string;
+  titleAppend?: JSX.Element | null;
   actions?: JSX.Element | null;
 }
 
-export default function Header({ title, showBack, actions }: HeaderProps) {
+export default function Header({
+  showBack,
+  title,
+  titleAppend,
+  actions,
+}: HeaderProps) {
   if (!showBack) showBack = false;
+  if (!titleAppend) titleAppend = null;
   if (!actions) actions = null;
 
   /**
    * navigation
    */
-  const navigation = useNavigation<WithHeaderNavigationProp>();
+  const navigation = useNavigation<MainRouterNavigationProp>();
 
   return (
     <View style={styles.header}>
@@ -29,7 +36,10 @@ export default function Header({ title, showBack, actions }: HeaderProps) {
           onPress={() => navigation.goBack()}
         ></IconButton>
       ) : null}
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.title}>
+        <Text style={styles.titleText}>{title}</Text>
+        {titleAppend}
+      </View>
       {actions}
     </View>
   );
@@ -45,8 +55,11 @@ const styles = StyleSheet.create({
   },
   back: { marginRight: 28 },
   title: {
+    flexDirection: "row",
+    marginRight: "auto",
+  },
+  titleText: {
     fontSize: 20,
     color: COLOR_WHITE,
-    marginRight: "auto",
   },
 });

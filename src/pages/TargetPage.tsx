@@ -1,23 +1,21 @@
 import { View, StyleSheet, Text } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {
-  MATTER_EDIT_PAGE_NAME,
-  MainRouterNavigationProp,
   FIRST_VIEW_PAGE_NAME,
+  MainRouterNavigationProp,
   MATTER_OR_TARGET_PAGE_NAME,
-  TARGET_PAGE_NAME,
+  MATTER_PAGE_NAME,
+  TARGET_EDIT_PAGE_NAME,
 } from "../routes/type";
 import { useSetAtom } from "jotai/react";
-import { HEADER_TITLE_MATTER } from "../utils/text";
-import { useEffect, useState, useMemo } from "react";
-import { DA } from "../data";
-import { Matter } from "../data/matter";
+import { HEADER_TITLE_TARGET } from "../utils/text";
 import { FooterState, FooterStore } from "../store";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
+import { useMemo } from "react";
 
-export default function MatterPage() {
+export default function TargetPage() {
   /**
    * navigation
    */
@@ -45,7 +43,7 @@ export default function MatterPage() {
             navigation.navigate(FIRST_VIEW_PAGE_NAME, {
               screen: MATTER_OR_TARGET_PAGE_NAME,
               params: {
-                screen: TARGET_PAGE_NAME,
+                screen: MATTER_PAGE_NAME,
               },
             })
           }
@@ -59,36 +57,21 @@ export default function MatterPage() {
         <IconButton
           iconName="add-circle-outline"
           iconColor={COLOR_WHITE}
-          onPress={() => navigation.navigate(MATTER_EDIT_PAGE_NAME)}
+          onPress={() => navigation.navigate(TARGET_EDIT_PAGE_NAME)}
         />
       </View>
     );
   }, []);
 
-  /**
-   * matters
-   */
-  const [matters, setMatters] = useState<Matter[]>([]);
-  useEffect(() => {
-    DA()
-      .getAllMatter()
-      .then((res) => setMatters(res));
-  }, []);
-
   return (
     <>
       <Header
-        title={HEADER_TITLE_MATTER}
+        title={HEADER_TITLE_TARGET}
         titleAppend={HeaderTitleAppend}
         actions={HeaderActions}
       ></Header>
       <View>
-        <Text>Matter</Text>
-        {matters.map((matter) => (
-          <Text key={"matter-" + matter.matterId}>
-            {JSON.stringify(matter)}
-          </Text>
-        ))}
+        <Text>Target</Text>
       </View>
     </>
   );

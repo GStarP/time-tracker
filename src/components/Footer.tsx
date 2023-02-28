@@ -1,7 +1,7 @@
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { COLOR_BLACK, COLOR_PRIMARY, COLOR_WHITE } from "../styles/const";
 import { useAtom } from "jotai";
-import { FooterState, FooterStore } from "../store/footer";
+import { FooterState, FooterStore } from "../store";
 import IconButton from "../ui/IconButton";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -11,7 +11,7 @@ import {
   SETTING_PAGE_NAME,
   STATS_PAGE_NAME,
   TIMER_CREATE_PAGE_NAME,
-  WithHeaderNavigationProp,
+  MainRouterNavigationProp,
 } from "../routes/type";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
@@ -25,18 +25,16 @@ export default function Footer() {
   /**
    * navigation
    */
-  const navigation = useNavigation<WithHeaderNavigationProp>();
+  const navigation = useNavigation<MainRouterNavigationProp>();
 
   return (
     <View style={styles.footer}>
       <View style={styles.iconContainer}>
         <IconButton
           iconName="event-note"
-          iconColor={iconColor(FooterState.MATTER)}
+          iconColor={iconColor(FooterState.MATTER_OR_TARGET)}
           onPress={() =>
-            navigation.navigate(FIRST_VIEW_PAGE_NAME, {
-              screen: MATTER_PAGE_NAME,
-            })
+            navigation.navigate("FirstView", { screen: "MatterOrTarget" })
           }
         />
         <IconButton
