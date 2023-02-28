@@ -16,6 +16,7 @@ import { FooterState, FooterStore } from "../store";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
+import { HeaderStore } from "../store/header";
 
 export default function MatterPage() {
   /**
@@ -64,6 +65,14 @@ export default function MatterPage() {
       </View>
     );
   }, []);
+  const setHeaderTitle = useSetAtom(HeaderStore.title);
+  const setHeaderTitleAppend = useSetAtom(HeaderStore.titleAppend);
+  const setHeaderActions = useSetAtom(HeaderStore.actions);
+  useFocusEffect(() => {
+    setHeaderTitle(HEADER_TITLE_MATTER);
+    setHeaderTitleAppend(HeaderTitleAppend);
+    setHeaderActions(HeaderActions);
+  });
 
   /**
    * matters
@@ -76,20 +85,11 @@ export default function MatterPage() {
   }, []);
 
   return (
-    <>
-      <Header
-        title={HEADER_TITLE_MATTER}
-        titleAppend={HeaderTitleAppend}
-        actions={HeaderActions}
-      ></Header>
-      <View>
-        <Text>Matter</Text>
-        {matters.map((matter) => (
-          <Text key={"matter-" + matter.matterId}>
-            {JSON.stringify(matter)}
-          </Text>
-        ))}
-      </View>
-    </>
+    <View>
+      <Text>Matter</Text>
+      {matters.map((matter) => (
+        <Text key={"matter-" + matter.matterId}>{JSON.stringify(matter)}</Text>
+      ))}
+    </View>
   );
 }

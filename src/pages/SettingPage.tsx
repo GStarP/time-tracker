@@ -5,6 +5,7 @@ import { useSetAtom } from "jotai/react";
 import { HEADER_TITLE_SETTING } from "../utils/text";
 import { FooterState, FooterStore } from "../store";
 import Header from "../components/Header";
+import { HeaderStore } from "../store/header";
 
 export default function SettingPage() {
   /**
@@ -20,12 +21,21 @@ export default function SettingPage() {
     setFooterState(FooterState.SETTING);
   });
 
+  /**
+   * Header
+   */
+  const setHeaderTitle = useSetAtom(HeaderStore.title);
+  const setHeaderTitleAppend = useSetAtom(HeaderStore.titleAppend);
+  const setHeaderActions = useSetAtom(HeaderStore.actions);
+  useFocusEffect(() => {
+    setHeaderTitle(HEADER_TITLE_SETTING);
+    setHeaderTitleAppend(null);
+    setHeaderActions(null);
+  });
+
   return (
-    <>
-      <Header title={HEADER_TITLE_SETTING}></Header>
-      <View>
-        <Text>Setting</Text>
-      </View>
-    </>
+    <View>
+      <Text>Setting</Text>
+    </View>
   );
 }

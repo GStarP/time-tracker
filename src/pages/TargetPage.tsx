@@ -14,6 +14,7 @@ import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
 import { useMemo } from "react";
+import { HeaderStore } from "../store/header";
 
 export default function TargetPage() {
   /**
@@ -62,17 +63,18 @@ export default function TargetPage() {
       </View>
     );
   }, []);
+  const setHeaderTitle = useSetAtom(HeaderStore.title);
+  const setHeaderTitleAppend = useSetAtom(HeaderStore.titleAppend);
+  const setHeaderActions = useSetAtom(HeaderStore.actions);
+  useFocusEffect(() => {
+    setHeaderTitle(HEADER_TITLE_TARGET);
+    setHeaderTitleAppend(HeaderTitleAppend);
+    setHeaderActions(HeaderActions);
+  });
 
   return (
-    <>
-      <Header
-        title={HEADER_TITLE_TARGET}
-        titleAppend={HeaderTitleAppend}
-        actions={HeaderActions}
-      ></Header>
-      <View>
-        <Text>Target</Text>
-      </View>
-    </>
+    <View>
+      <Text>Target</Text>
+    </View>
   );
 }

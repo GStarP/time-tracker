@@ -27,6 +27,9 @@ import TimerPage from "../pages/TimerPage";
 import MatterPage from "../pages/MatterPage";
 import Footer from "../components/Footer";
 import MatterEditPage from "../pages/MatterEditPage";
+import Header from "../components/Header";
+import { useAtom } from "jotai";
+import { HeaderStore } from "../store/header";
 
 const MainRouter = createNativeStackNavigator();
 const WithFooter = createNativeStackNavigator();
@@ -42,8 +45,18 @@ function MatterOrTargetPage() {
 }
 
 function FirstView() {
+  const [headerTitle] = useAtom(HeaderStore.title);
+  const [headerTitleAppend] = useAtom(HeaderStore.titleAppend);
+  const [headerActions] = useAtom(HeaderStore.actions);
+
   return (
     <View style={{ flex: 1 }}>
+      {/* First View must share header to avoid blink when switch page */}
+      <Header
+        title={headerTitle}
+        titleAppend={headerTitleAppend}
+        actions={headerActions}
+      ></Header>
       <WithFooter.Navigator screenOptions={commonScreenOptions}>
         <WithFooter.Screen
           name={MATTER_OR_TARGET_PAGE_NAME}
@@ -92,7 +105,6 @@ export default function RouterView() {
 
 const commonScreenOptions: NativeStackNavigationOptions = {
   headerShown: false,
-  /* @FIX header seems flash when switch first-view */
   animation: "fade",
   animationDuration: 200,
 };
