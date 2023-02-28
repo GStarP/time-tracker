@@ -18,15 +18,16 @@ export const SETTING_PAGE_NAME = "Setting";
 
 export const MATTER_PAGE_NAME = "Matter";
 export const TARGET_PAGE_NAME = "Target";
+
 /**
  * router type
  */
 export type MainRouterNavigationProp = NativeStackNavigationProp<{
   [FIRST_VIEW_PAGE_NAME]: NavigatorScreenParams<WithFooterRouteList>;
-  [MATTER_EDIT_PAGE_NAME]: undefined;
+  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit;
   [TIMER_CREATE_PAGE_NAME]: undefined;
-  [RECORD_EDIT_PAGE_NAME]: undefined;
-  [TARGET_EDIT_PAGE_NAME]: undefined;
+  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit;
+  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit;
   [TIMER_PAGE_NAME]: undefined;
 }>;
 
@@ -42,4 +43,16 @@ export type WithFooterRouteList = {
 export type MatterOrTargetRouteList = {
   [MATTER_PAGE_NAME]: undefined;
   [TARGET_PAGE_NAME]: undefined;
+};
+
+/**
+ * route param
+ */
+export interface CreateOrEdit {
+  isEdit: boolean;
+}
+export type EditPageParam = {
+  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit;
+  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit;
+  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit;
 };

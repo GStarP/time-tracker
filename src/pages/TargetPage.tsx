@@ -58,7 +58,9 @@ export default function TargetPage() {
         <IconButton
           iconName="add-circle-outline"
           iconColor={COLOR_WHITE}
-          onPress={() => navigation.navigate(TARGET_EDIT_PAGE_NAME)}
+          onPress={() =>
+            navigation.navigate(TARGET_EDIT_PAGE_NAME, { isEdit: false })
+          }
         />
       </View>
     );

@@ -36,7 +36,9 @@ export default function RecordPage() {
         <IconButton
           iconName="add-circle-outline"
           iconColor={COLOR_WHITE}
-          onPress={() => navigation.navigate(RECORD_EDIT_PAGE_NAME)}
+          onPress={() =>
+            navigation.navigate(RECORD_EDIT_PAGE_NAME, { isEdit: false })
+          }
         />
       </View>
     );

@@ -1,7 +1,10 @@
 import { View, StyleSheet, Text, Button } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { MainRouterNavigationProp } from "../routes/type";
-import { HEADER_TITLE_MATTER_CREATE } from "../utils/text";
+import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { EditPageParam, MainRouterNavigationProp } from "../routes/type";
+import {
+  HEADER_TITLE_MATTER_CREATE,
+  HEADER_TITLE_MATTER_EDIT,
+} from "../utils/text";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { useMemo } from "react";
@@ -12,6 +15,8 @@ export default function MatterEditPage() {
    * navigation
    */
   const navigation = useNavigation<MainRouterNavigationProp>();
+  const route = useRoute<RouteProp<EditPageParam, "MatterEdit">>();
+  const isEdit = route.params?.isEdit ?? false;
 
   /**
    * Header
@@ -30,7 +35,7 @@ export default function MatterEditPage() {
   return (
     <>
       <Header
-        title={HEADER_TITLE_MATTER_CREATE}
+        title={isEdit ? HEADER_TITLE_MATTER_EDIT : HEADER_TITLE_MATTER_CREATE}
         showBack={true}
         actions={HeaderActions}
       ></Header>

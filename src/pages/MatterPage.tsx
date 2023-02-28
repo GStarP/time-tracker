@@ -60,7 +60,9 @@ export default function MatterPage() {
         <IconButton
           iconName="add-circle-outline"
           iconColor={COLOR_WHITE}
-          onPress={() => navigation.navigate(MATTER_EDIT_PAGE_NAME)}
+          onPress={() =>
+            navigation.navigate(MATTER_EDIT_PAGE_NAME, { isEdit: false })
+          }
         />
       </View>
     );
