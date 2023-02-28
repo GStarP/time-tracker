@@ -57,11 +57,10 @@ export default function App() {
       <StatusBar></StatusBar>
       {ready ? (
         <NavigationContainer>
-          <Header></Header>
           <WithHeader.Navigator
             screenOptions={{
               ...commonScreenOptions,
-              animation: "slide_from_right",
+              animation: "slide_from_bottom",
             }}
           >
             <WithHeader.Screen

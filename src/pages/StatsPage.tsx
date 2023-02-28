@@ -2,9 +2,9 @@ import { View, Text } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { WithHeaderNavigationProp } from "../routes/type";
 import { useSetAtom } from "jotai/react";
-import { HeaderStore } from "../store";
 import { HEADER_TITLE_STATS } from "../utils/text";
 import { FooterState, FooterStore } from "../store/footer";
+import Header from "../components/Header";
 
 export default function StatsPage() {
   /**
@@ -12,15 +12,6 @@ export default function StatsPage() {
    */
   const navigation = useNavigation<WithHeaderNavigationProp>();
 
-  /**
-   * set header options
-   */
-  const setHeaderShowBack = useSetAtom(HeaderStore.showBack);
-  const setHeaderTitle = useSetAtom(HeaderStore.title);
-  useFocusEffect(() => {
-    setHeaderShowBack(false);
-    setHeaderTitle(HEADER_TITLE_STATS);
-  });
   /**
    * set footer options
    */
@@ -30,8 +21,11 @@ export default function StatsPage() {
   });
 
   return (
-    <View>
-      <Text>Stats</Text>
-    </View>
+    <>
+      <Header title={HEADER_TITLE_STATS}></Header>
+      <View>
+        <Text>Stats</Text>
+      </View>
+    </>
   );
 }

@@ -2,5 +2,6 @@ import { NativeStackNavigationOptions } from "@react-navigation/native-stack/lib
 
 export const commonScreenOptions: NativeStackNavigationOptions = {
   headerShown: false,
+  /* @FIX header seems flash when switch first-view */
   animation: "fade",
 };

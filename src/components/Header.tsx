@@ -1,15 +1,18 @@
-import { useAtom } from "jotai/react";
 import { View, StyleSheet, Text } from "react-native";
-import { HeaderStore } from "../store";
 import { COLOR_PRIMARY, COLOR_WHITE } from "../styles/const";
 import IconButton from "../ui/IconButton";
 import { useNavigation } from "@react-navigation/native";
 import { WithHeaderNavigationProp } from "../routes/type";
 
-export default function Header() {
-  const [title] = useAtom(HeaderStore.title);
-  const [showBack] = useAtom(HeaderStore.showBack);
-  const [HeaderActions] = useAtom(HeaderStore.actions);
+export interface HeaderProps {
+  title: string;
+  showBack?: boolean;
+  actions?: JSX.Element | null;
+}
+
+export default function Header({ title, showBack, actions }: HeaderProps) {
+  if (!showBack) showBack = false;
+  if (!actions) actions = null;
 
   /**
    * navigation
@@ -27,7 +30,7 @@ export default function Header() {
         ></IconButton>
       ) : null}
       <Text style={styles.title}>{title}</Text>
-      {HeaderActions}
+      {actions}
     </View>
   );
 }
