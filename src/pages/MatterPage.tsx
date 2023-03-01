@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Button } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {
   MATTER_EDIT_PAGE_NAME,
@@ -13,10 +13,10 @@ import { useEffect, useState, useMemo } from "react";
 import { DA } from "../data";
 import { Matter } from "../data/matter";
 import { FooterState, FooterStore } from "../store";
-import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
 import { HeaderStore } from "../store/header";
+import { useShowBottomModal } from "../ui/BottomModal";
 
 export default function MatterPage() {
   /**
@@ -87,12 +87,24 @@ export default function MatterPage() {
       .then((res) => setMatters(res));
   }, []);
 
+  /**
+   * Modal
+   */
+  const showBottomModal = useShowBottomModal();
+  const testModal = () => {
+    showBottomModal(
+      <View style={{ height: 200, backgroundColor: "#000" }}></View>,
+      "选择图标"
+    );
+  };
+
   return (
     <View>
       <Text>Matter</Text>
       {matters.map((matter) => (
         <Text key={"matter-" + matter.matterId}>{JSON.stringify(matter)}</Text>
       ))}
+      <Button title="Modal" onPress={testModal}></Button>
     </View>
   );
 }

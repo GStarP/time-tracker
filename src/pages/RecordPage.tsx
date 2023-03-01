@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import {
   RECORD_EDIT_PAGE_NAME,
@@ -12,6 +12,7 @@ import { useMemo } from "react";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
 import { HeaderStore } from "../store/header";
+import { useShowBottomModal } from "../ui/BottomModal";
 
 export default function RecordPage() {
   /**
@@ -52,9 +53,20 @@ export default function RecordPage() {
     setHeaderActions(HeaderActions);
   });
 
+  /**
+   * Modal
+   */
+  const showBottomModal = useShowBottomModal();
+  const testModal = () => {
+    showBottomModal(
+      <View style={{ height: 400, backgroundColor: "#000" }}></View>
+    );
+  };
+
   return (
     <View>
       <Text>Record</Text>
+      <Button title="Modal" onPress={testModal}></Button>
     </View>
   );
 }

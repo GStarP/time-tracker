@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, StatusBar } from "react-native";
 import { useState, useEffect } from "react";
 import { useSqliteDataAccess } from "./src/data";
 import { RouterView } from "./src/routes";
+import BottomModal from "./src/ui/BottomModal";
 
 export default function App() {
   /**
@@ -18,8 +19,9 @@ export default function App() {
   return (
     <View style={styles.app}>
       {/* @FIX if use expo StatusBar, app will ignore StatusBar space */}
-      <StatusBar></StatusBar>
+      <StatusBar />
       {ready ? <RouterView /> : <Text>Loading...</Text>}
+      <BottomModal />
     </View>
   );
 }

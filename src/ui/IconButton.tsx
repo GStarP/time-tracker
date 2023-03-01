@@ -15,7 +15,6 @@ export interface IconButtonProps extends WithReactNativeStyleProps {
   iconName: string;
   iconSize?: number;
   iconColor?: string;
-  backgroundColor?: string;
   onPress: (e: GestureResponderEvent) => void;
 }
 
@@ -44,6 +43,7 @@ export default function IconButton({
       toValue: 1,
       duration: 100,
       easing: Easing.linear,
+      // @FIX if set to true, animation will disappear
       useNativeDriver: false,
     }).start();
   }, []);
