@@ -39,6 +39,7 @@ export default function MatterPage() {
     return (
       <View style={{ marginTop: -2 }}>
         <IconButton
+          style={[{ position: "absolute", top: -8, left: -8 }]}
           iconName="autorenew"
           iconSize={20}
           iconColor={COLOR_WHITE}

@@ -40,7 +40,6 @@ export default function Footer() {
         <IconButton
           iconName="restore"
           iconSize={26}
-          bias={2}
           iconColor={iconColor(FooterState.RECORD)}
           onPress={() =>
             navigation.navigate(FIRST_VIEW_PAGE_NAME, {
@@ -89,6 +88,7 @@ const CENTER_BTN_SIZE = 48;
 const styles = StyleSheet.create({
   footer: {
     flexDirection: "row",
+    alignItems: "center",
     height: 48,
     backgroundColor: COLOR_WHITE,
     elevation: 6,
