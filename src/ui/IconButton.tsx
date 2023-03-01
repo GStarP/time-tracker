@@ -42,13 +42,14 @@ export default function IconButton({
   const onPressIn = useCallback(() => {
     Animated.timing(animateBackgroundColor.current, {
       toValue: 1,
-      duration: 200,
+      duration: 100,
       easing: Easing.linear,
       useNativeDriver: false,
     }).start();
   }, []);
   const onPressOut = useCallback(() => {
-    // @ATTENTION promise onPressIn finish, especially when sudden click
+    // @ATTENTION promise onPressIn animation finish
+    // especially during short click
     setTimeout(() => {
       Animated.timing(animateBackgroundColor.current, {
         toValue: 0,
@@ -56,7 +57,7 @@ export default function IconButton({
         easing: Easing.linear,
         useNativeDriver: false,
       }).start();
-    }, 200);
+    }, 100);
   }, []);
 
   return (
