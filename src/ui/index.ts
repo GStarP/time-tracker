@@ -1,5 +1,6 @@
-import { ViewStyle } from "react-native";
+import { GestureResponderEvent, ViewStyle } from "react-native";
 
-export interface WithReactNativeStyleProps {
-  style?: ViewStyle[];
+export type OnPressCallback = (e: GestureResponderEvent) => void;
+export interface WithOnPressProps {
+  onPress?: OnPressCallback;
 }

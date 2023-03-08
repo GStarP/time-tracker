@@ -16,7 +16,6 @@ import { FooterState, FooterStore } from "../store";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
 import { HeaderStore } from "../store/header";
-import { useShowBottomModal } from "../ui/BottomModal";
 
 export default function MatterPage() {
   /**
@@ -39,7 +38,7 @@ export default function MatterPage() {
     return (
       <View style={{ marginTop: -2 }}>
         <IconButton
-          style={[{ position: "absolute", top: -8, left: -8 }]}
+          style={{ position: "absolute", top: -8, left: -8 }}
           iconName="autorenew"
           iconSize={20}
           iconColor={COLOR_WHITE}
@@ -87,24 +86,9 @@ export default function MatterPage() {
       .then((res) => setMatters(res));
   }, []);
 
-  /**
-   * Modal
-   */
-  const showBottomModal = useShowBottomModal();
-  const testModal = () => {
-    showBottomModal(
-      <View style={{ height: 200, backgroundColor: "#000" }}></View>,
-      "选择图标"
-    );
-  };
-
   return (
     <View>
       <Text>Matter</Text>
-      {matters.map((matter) => (
-        <Text key={"matter-" + matter.matterId}>{JSON.stringify(matter)}</Text>
-      ))}
-      <Button title="Modal" onPress={testModal}></Button>
     </View>
   );
 }

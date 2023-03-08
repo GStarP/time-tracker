@@ -1,21 +1,15 @@
-import {
-  GestureResponderEvent,
-  Pressable,
-  StyleSheet,
-  View,
-  Animated,
-  Easing,
-} from "react-native";
+import { Pressable, StyleSheet, View, Animated, Easing } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLOR_BLACK } from "../styles/const";
-import { WithReactNativeStyleProps } from ".";
-import { useCallback, useRef } from "react";
+import { WithOnPressProps } from ".";
+import React, { useCallback, useRef } from "react";
 
-export interface IconButtonProps extends WithReactNativeStyleProps {
+export interface IconButtonProps
+  extends React.ComponentProps<typeof View>,
+    WithOnPressProps {
   iconName: string;
   iconSize?: number;
   iconColor?: string;
-  onPress: (e: GestureResponderEvent) => void;
 }
 
 export default function IconButton({
@@ -71,7 +65,7 @@ export default function IconButton({
             outputRange: ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.1)"],
           }),
         },
-        ...(style ?? []),
+        style,
       ]}
     >
       <Pressable
@@ -79,7 +73,7 @@ export default function IconButton({
         onPressOut={onPressOut}
         onPress={onPress}
       >
-        {/* @FIX how to get Generics Type ??? */}
+        {/* @FIX material icon name type */}
         <MaterialIcons
           name={iconName as any}
           color={iconColor}
