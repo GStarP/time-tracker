@@ -5,8 +5,8 @@ import { ICON_OTHER } from "../styles/const";
  */
 export const IconList = [ICON_OTHER];
 
-export function icon(iconCode: number): string | null {
-  return iconCode >= 0 && iconCode < IconList.length
-    ? IconList[iconCode]
-    : null;
+export function icon(iconCode: number): string {
+  if (iconCode < 0 && iconCode > IconList.length)
+    throw new Error("[utils/icon.ts] illegal iconCode");
+  return IconList[iconCode];
 }

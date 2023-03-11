@@ -5,8 +5,8 @@ import { COLOR_PRIMARY } from "../styles/const";
  */
 export const ColorList = [COLOR_PRIMARY];
 
-export function color(colorCode: number): string | null {
-  return colorCode >= 0 && colorCode < ColorList.length
-    ? ColorList[colorCode]
-    : null;
+export function color(colorCode: number): string {
+  if (colorCode < 0 || colorCode > ColorList.length)
+    throw new Error("[utils/color.ts] illegal colorCode");
+  return ColorList[colorCode];
 }
