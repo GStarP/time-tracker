@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, View, Animated, Easing } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLOR_BLACK } from "../styles/const";
 import { WithOnPressProps } from ".";
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 
 export interface IconButtonProps
   extends React.ComponentProps<typeof View>,
@@ -32,7 +32,7 @@ export default function IconButton({
 
   // background-color animation when pressed
   const animateBackgroundColor = useRef(new Animated.Value(0));
-  const onPressIn = useCallback(() => {
+  const onPressIn = () => {
     Animated.timing(animateBackgroundColor.current, {
       toValue: 1,
       duration: 100,
@@ -40,8 +40,8 @@ export default function IconButton({
       // @FIX if set to true, animation will disappear
       useNativeDriver: false,
     }).start();
-  }, []);
-  const onPressOut = useCallback(() => {
+  };
+  const onPressOut = () => {
     // @ATTENTION promise onPressIn animation finish
     // especially during short click
     setTimeout(() => {
@@ -52,7 +52,7 @@ export default function IconButton({
         useNativeDriver: false,
       }).start();
     }, 100);
-  }, []);
+  };
 
   return (
     <Animated.View

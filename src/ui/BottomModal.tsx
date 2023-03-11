@@ -9,7 +9,7 @@ import {
   Dimensions,
   Easing,
 } from "react-native";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { COLOR_SHADOW, COLOR_WHITE } from "../styles/const";
 
 export const BottomModalStore = {
@@ -20,14 +20,14 @@ export const BottomModalStore = {
 };
 
 export function useShowBottomModal() {
-  const setBottomMoalVisible = useSetAtom(BottomModalStore.visible);
-  const setBottomMoalTitle = useSetAtom(BottomModalStore.title);
-  const setBottomMoalChild = useSetAtom(BottomModalStore.child);
+  const setBottomModalVisible = useSetAtom(BottomModalStore.visible);
+  const setBottomModalTitle = useSetAtom(BottomModalStore.title);
+  const setBottomModalChild = useSetAtom(BottomModalStore.child);
 
   return (child: JSX.Element, title?: string) => {
-    setBottomMoalVisible(true);
-    setBottomMoalTitle(title);
-    setBottomMoalChild(child);
+    setBottomModalVisible(true);
+    setBottomModalTitle(title);
+    setBottomModalChild(child);
   };
 }
 
@@ -67,20 +67,20 @@ export default function BottomModal() {
   });
 
   // show modal
-  const showModal = useCallback(() => {
+  const showModal = () => {
     Animated.parallel([fadeInAnimation, slideUpAnimation]).start();
-  }, []);
+  };
   useEffect(() => {
     if (visible) {
       showModal();
     }
   }, [visible]);
   // hide modal
-  const hideModal = useCallback(() => {
+  const hideModal = () => {
     Animated.parallel([fadeOutAnimation, slideDownAnimation]).start(() =>
       setVisible(false)
     );
-  }, []);
+  };
 
   return (
     <Modal
