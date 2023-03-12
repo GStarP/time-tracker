@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import {
   FIRST_VIEW_PAGE_NAME,
   MATTER_EDIT_PAGE_NAME,
@@ -30,6 +30,7 @@ import MatterEditPage from "../pages/MatterEditPage";
 import Header from "../components/Header";
 import { useAtom } from "jotai";
 import { HeaderStore } from "../store/header";
+import { COLOR_BACKGROUNG } from "../styles/const";
 
 const MainRouter = createNativeStackNavigator();
 const WithFooter = createNativeStackNavigator();
@@ -73,7 +74,7 @@ function FirstView() {
 
 export default function RouterView() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <MainRouter.Navigator
         screenOptions={{
           ...commonScreenOptions,
@@ -102,6 +103,17 @@ export default function RouterView() {
     </NavigationContainer>
   );
 }
+
+/**
+ * default settings
+ */
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: COLOR_BACKGROUNG,
+  },
+};
 
 const commonScreenOptions: NativeStackNavigationOptions = {
   headerShown: false,

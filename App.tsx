@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSqliteDataAccess } from "./src/data";
 import { RouterView } from "./src/routes";
 import BottomModal from "./src/ui/BottomModal";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function App() {
   /**
@@ -20,7 +21,9 @@ export default function App() {
     <View style={styles.app}>
       {/* @FIX if use expo StatusBar, app will ignore StatusBar space */}
       <StatusBar />
-      {ready ? <RouterView /> : <Text>Loading...</Text>}
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {ready ? <RouterView /> : <Text>Loading...</Text>}
+      </GestureHandlerRootView>
       <BottomModal />
     </View>
   );

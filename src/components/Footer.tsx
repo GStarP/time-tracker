@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 48,
     backgroundColor: COLOR_WHITE,
-    elevation: 6,
+    elevation: 4,
   },
   iconContainer: {
     flexDirection: "row",

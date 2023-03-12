@@ -12,7 +12,7 @@ export interface IconButtonProps
   iconColor?: string;
 }
 
-export default function IconButton({
+function IconButton({
   style,
   iconName,
   iconSize,
@@ -83,6 +83,8 @@ export default function IconButton({
     </Animated.View>
   );
 }
+
+export default React.memo(IconButton);
 
 const styles = StyleSheet.create({
   button: {
