@@ -21,6 +21,13 @@ export async function initSqliteDataAccess(): Promise<DataAccess> {
  */
 const SQLITE_DIR_NAME = "SQLite";
 async function openDatabaseFromFile(): Promise<SQLite.Database> {
+  /**
+   * if db is not closed, you may encounter Error: attempt to write a readonly database
+   * @ref https://github.com/expo/expo/issues/8109
+   */
+  const unclosedDB = SQLite.openDatabase(`${DB_NAME}.db`);
+  unclosedDB.closeAsync();
+
   // create sqlite directory in mobile storage
   const sqlitePath = FileSystem.documentDirectory + SQLITE_DIR_NAME;
   if (!(await FileSystem.getInfoAsync(sqlitePath)).exists) {

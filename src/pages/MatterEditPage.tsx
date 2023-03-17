@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, TextInput, StyleSheet } from "react-native";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { EditPageParam, MainRouterNavigationProp } from "../routes/type";
 import {
@@ -7,8 +7,18 @@ import {
 } from "../utils/text";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
-import { useMemo } from "react";
-import { COLOR_WHITE } from "../styles/const";
+import { useRef } from "react";
+import { COLOR_BLACK, COLOR_HINT, COLOR_WHITE } from "../styles/const";
+import Button from "../ui/Button";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useColorSelect } from "../components/matter-edit/ColorSelect";
+import { useIconSelect } from "../components/matter-edit/IconSelect";
+import { errorDialogOptions, useDialog } from "../ui/Dialog";
+import { DA } from "../data";
+import { color } from "../utils/color";
+import { icon } from "../utils/icon";
+import { useSetAtom } from "jotai";
+import { MatterStore } from "../store/matter";
 
 export default function MatterEditPage() {
   /**
@@ -19,18 +29,67 @@ export default function MatterEditPage() {
   const isEdit = route.params?.isEdit ?? false;
 
   /**
+   * create/edit matter
+   */
+  const matterName = useRef("");
+  const [iconColor, showIconColorSelect] = useColorSelect();
+  const [iconName, showIconNameSelect] = useIconSelect();
+
+  /**
+   * confirm
+   */
+  const [showDialog] = useDialog();
+  const setMatters = useSetAtom(MatterStore.matters);
+  const onConfirm = () => {
+    if (isEdit) {
+      showDialog({
+        content: "尚未实现",
+        confirmText: "",
+      });
+    } else {
+      if (matterName.current === "") {
+        showDialog({
+          content: "事务名称不能为空",
+          cancelText: "",
+        });
+        return;
+      }
+
+      showDialog({
+        content: "是否确认新建事务",
+      })
+        .then(async () => {
+          try {
+            const dao = DA();
+            dao.insertMatter({
+              matterId: -1,
+              matterName: matterName.current,
+              matterIcon: iconName,
+              matterColor: iconColor,
+            });
+
+            const matters = await dao.getAllMatter();
+            setMatters(matters);
+
+            navigation.goBack();
+          } catch (e: any) {
+            showDialog(errorDialogOptions(e));
+          }
+        })
+        .catch((e) => {});
+    }
+  };
+
+  /**
    * Header
    */
-  const HeaderActions = useMemo(() => {
-    return (
-      <IconButton
-        iconName="check"
-        iconColor={COLOR_WHITE}
-        // @TODO
-        onPress={() => navigation.goBack()}
-      ></IconButton>
-    );
-  }, []);
+  const HeaderActions = (
+    <IconButton
+      iconName="check"
+      iconColor={COLOR_WHITE}
+      onPress={onConfirm}
+    ></IconButton>
+  );
 
   return (
     <>
@@ -39,9 +98,41 @@ export default function MatterEditPage() {
         showBack={true}
         actions={HeaderActions}
       ></Header>
-      <View>
-        <Text>Matter Edit</Text>
+      <View style={{ paddingVertical: 24 }}>
+        {/* matter-item preview */}
+        <View
+          style={[styles.matter, { marginHorizontal: 24, marginBottom: 24 }]}
+        >
+          <Ionicons
+            style={{ marginRight: 16 }}
+            name={icon(iconName) as any}
+            color={color(iconColor)}
+            size={24}
+          />
+          <TextInput
+            style={{ fontSize: 16 }}
+            placeholder="点击输入事务名称"
+            placeholderTextColor={COLOR_HINT}
+            cursorColor={COLOR_BLACK}
+            onChangeText={(text) => (matterName.current = text)}
+          ></TextInput>
+        </View>
+
+        <Button label="更换颜色" onPress={showIconColorSelect}></Button>
+        <Button label="更换图标" onPress={showIconNameSelect}></Button>
       </View>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  matter: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    height: 72,
+    borderRadius: 4,
+    backgroundColor: COLOR_WHITE,
+    elevation: 2,
+  },
+});

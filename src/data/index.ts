@@ -13,4 +13,5 @@ export function DA() {
 
 export async function useSqliteDataAccess() {
   da = await initSqliteDataAccess();
+  return da;
 }

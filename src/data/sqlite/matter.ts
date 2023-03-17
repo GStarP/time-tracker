@@ -21,6 +21,21 @@ export function SqliteDataAccessMatter(
       });
     }
 
+    function insertMatter(matter: Matter): Promise<void> {
+      return new Promise((resolve, reject) => {
+        db.transaction(
+          (tx) => {
+            tx.executeSql(
+              "insert into matters (matterName, matterColor, matterIcon) values (?, ?, ?)",
+              [matter.matterName, matter.matterColor, matter.matterIcon],
+              () => resolve()
+            );
+          },
+          (e) => reject(e)
+        );
+      });
+    }
+
     // create table `matter` if not exists
     db.transaction(
       (tx) => {
@@ -39,6 +54,7 @@ export function SqliteDataAccessMatter(
       () => {
         resolve({
           getAllMatter,
+          insertMatter,
         });
       }
     );

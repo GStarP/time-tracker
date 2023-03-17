@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, View, Animated, Easing } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { COLOR_BLACK } from "../styles/const";
+import { COLOR_BLACK, COLOR_BLUR, COLOR_FOCUS } from "../styles/const";
 import { WithOnPressProps } from ".";
 import React, { useRef } from "react";
 
@@ -62,7 +62,7 @@ function IconButton({
         {
           backgroundColor: animateBackgroundColor.current.interpolate({
             inputRange: [0, 1],
-            outputRange: ["rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0.1)"],
+            outputRange: [COLOR_BLUR, COLOR_FOCUS],
           }),
         },
         style,

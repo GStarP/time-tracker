@@ -7,4 +7,5 @@ export interface Matter {
 
 export interface DataAccessMatter {
   getAllMatter: () => Promise<Matter[]>;
+  insertMatter: (matter: Matter) => Promise<void>;
 }
