@@ -4,7 +4,7 @@ import { EditPageParam, MainRouterNavigationProp } from "../routes/type";
 import {
   HEADER_TITLE_MATTER_CREATE,
   HEADER_TITLE_MATTER_EDIT,
-} from "../utils/text";
+} from "../modules/text";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { useRef } from "react";
@@ -15,10 +15,11 @@ import { useColorSelect } from "../components/matter-edit/ColorSelect";
 import { useIconSelect } from "../components/matter-edit/IconSelect";
 import { errorDialogOptions, useDialog } from "../ui/Dialog";
 import { DA } from "../data";
-import { color } from "../utils/color";
-import { icon } from "../utils/icon";
-import { useSetAtom } from "jotai";
+import { color } from "../modules/color";
+import { icon } from "../modules/icon";
+import { useAtom } from "jotai";
 import { MatterStore } from "../store/matter";
+import { getNewMatterSortNum } from "../modules/matter/sort";
 
 export default function MatterEditPage() {
   /**
@@ -39,7 +40,7 @@ export default function MatterEditPage() {
    * confirm
    */
   const [showDialog] = useDialog();
-  const setMatters = useSetAtom(MatterStore.matters);
+  const [matters, setMatters] = useAtom(MatterStore.matters);
   const onConfirm = () => {
     if (isEdit) {
       showDialog({
@@ -60,16 +61,21 @@ export default function MatterEditPage() {
       })
         .then(async () => {
           try {
+            const sortNum = getNewMatterSortNum(matters);
+
             const dao = DA();
             dao.insertMatter({
               matterId: -1,
               matterName: matterName.current,
               matterIcon: iconName,
               matterColor: iconColor,
+              sortNum,
             });
 
-            const matters = await dao.getAllMatter();
-            setMatters(matters);
+            // after insert, update immediately
+            // after update, insert complete
+            const newMatters = await dao.getAllMatter();
+            setMatters(newMatters);
 
             navigation.goBack();
           } catch (e: any) {

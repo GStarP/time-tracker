@@ -5,14 +5,12 @@ import {
   MainRouterNavigationProp,
 } from "../routes/type";
 import { useSetAtom } from "jotai/react";
-import { HEADER_TITLE_RECORD } from "../utils/text";
+import { HEADER_TITLE_RECORD } from "../modules/text";
 import { FooterState, FooterStore } from "../store";
-import Header from "../components/Header";
 import { useMemo } from "react";
 import IconButton from "../ui/IconButton";
 import { COLOR_WHITE } from "../styles/const";
 import { HeaderStore } from "../store/header";
-import { useShowBottomModal } from "../ui/BottomModal";
 
 export default function RecordPage() {
   /**
@@ -53,20 +51,10 @@ export default function RecordPage() {
     setHeaderActions(HeaderActions);
   });
 
-  /**
-   * Modal
-   */
-  const showBottomModal = useShowBottomModal();
-  const testModal = () => {
-    showBottomModal(
-      <View style={{ height: 400, backgroundColor: "#000" }}></View>
-    );
-  };
-
   return (
     <View>
       <Text>Record</Text>
-      <Button title="Modal" onPress={testModal}></Button>
+      <Button title="Modal"></Button>
     </View>
   );
 }

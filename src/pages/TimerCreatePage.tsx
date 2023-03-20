@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import { HEADER_TIMER_CREATE_PAGE } from "../utils/text";
+import { HEADER_TIMER_CREATE_PAGE } from "../modules/text";
 import Header from "../components/Header";
 import { useMemo } from "react";
 import IconButton from "../ui/IconButton";

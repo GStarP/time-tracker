@@ -4,7 +4,7 @@ import { EditPageParam, MainRouterNavigationProp } from "../routes/type";
 import {
   HEADER_TITLE_RECORD_CREATE,
   HEADER_TITLE_RECORD_EDIT,
-} from "../utils/text";
+} from "../modules/text";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";
 import { useMemo } from "react";

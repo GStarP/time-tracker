@@ -1,6 +1,6 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { useShowBottomModal } from "../../ui/BottomModal";
-import { color, ColorList } from "../../utils/color";
+import { color, ColorList } from "../../modules/color";
 import { atom, useAtom } from "jotai";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLOR_WHITE } from "../../styles/const";

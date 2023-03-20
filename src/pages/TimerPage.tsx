@@ -5,7 +5,7 @@ import {
   MainRouterNavigationProp,
   MATTER_OR_TARGET_PAGE_NAME,
 } from "../routes/type";
-import { HEADER_TITLE_TIMER } from "../utils/text";
+import { HEADER_TITLE_TIMER } from "../modules/text";
 import Header from "../components/Header";
 
 export default function TimerPage() {

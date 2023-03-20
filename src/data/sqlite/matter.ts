@@ -12,9 +12,13 @@ export function SqliteDataAccessMatter(
       return new Promise((resolve, reject) => {
         db.transaction(
           (tx) => {
-            tx.executeSql("select * from matters;", [], (_, resultSet) => {
-              resolve(resultSet.rows._array);
-            });
+            tx.executeSql(
+              "SELECT * FROM matters ORDER BY sortNum ASC;",
+              [],
+              (_, resultSet) => {
+                resolve(resultSet.rows._array);
+              }
+            );
           },
           (e) => reject(e)
         );
@@ -26,8 +30,13 @@ export function SqliteDataAccessMatter(
         db.transaction(
           (tx) => {
             tx.executeSql(
-              "insert into matters (matterName, matterColor, matterIcon) values (?, ?, ?)",
-              [matter.matterName, matter.matterColor, matter.matterIcon],
+              "INSERT INTO matters (matterName, matterColor, matterIcon, sortNum) VALUES (?, ?, ?, ?)",
+              [
+                matter.matterName,
+                matter.matterColor,
+                matter.matterIcon,
+                matter.sortNum,
+              ],
               () => resolve()
             );
           },
@@ -36,17 +45,69 @@ export function SqliteDataAccessMatter(
       });
     }
 
-    // create table `matter` if not exists
+    function updateMatter(matter: Matter): Promise<void> {
+      return new Promise((resolve, reject) => {
+        db.transaction(
+          (tx) => {
+            tx.executeSql(
+              "UPDATE matters SET matterName = (?), matterColor = (?), matterIcon = (?), sortNum = (?) WHERE matterId = (?)",
+              [
+                matter.matterName,
+                matter.matterColor,
+                matter.matterIcon,
+                matter.sortNum,
+                matter.matterId,
+              ],
+              () => resolve()
+            );
+          },
+          (e) => reject(e)
+        );
+      });
+    }
+
+    function updateMatterOrder(matters: Matter[]): Promise<void> {
+      return new Promise((resolve, reject) => {
+        db.transaction(
+          (tx) => {
+            const totalNum = matters.length;
+
+            let resolveNum = 0;
+            const singleUpdateResolve = () => {
+              resolveNum++;
+              if (resolveNum === totalNum) {
+                resolve();
+              }
+            };
+
+            for (let i = 0; i < totalNum; ++i) {
+              const matter = matters[i];
+              tx.executeSql(
+                "UPDATE matters SET matterName = (?), matterColor = (?), matterIcon = (?), sortNum = (?) WHERE matterId = (?)",
+                [
+                  matter.matterName,
+                  matter.matterColor,
+                  matter.matterIcon,
+                  matter.sortNum,
+                  matter.matterId,
+                ],
+                singleUpdateResolve
+              );
+            }
+          },
+          (e) => reject(e)
+        );
+      });
+    }
+
+    /**
+     * create table `matter` if not exists
+     */
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "create table if not exists matters (matterId integer primary key autoincrement, matterName text, matterColor integer, matterIcon integer);"
+          "CREATE TABLE IF NOT EXISTS matters (matterId INT PRIMARY KEY AUTOINCREMENT, matterName TEXT, matterColor INT, matterIcon INT, sortNum INT);"
         );
-        // @TEST
-        // tx.executeSql(
-        //   "insert into matters (matterName, matterColor, matterIcon) values (?, ?, ?)",
-        //   ["学习", 0, 0]
-        // );
       },
       (e) => {
         reject(e);
@@ -55,6 +116,8 @@ export function SqliteDataAccessMatter(
         resolve({
           getAllMatter,
           insertMatter,
+          updateMatter,
+          updateMatterOrder,
         });
       }
     );

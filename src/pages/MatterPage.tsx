@@ -8,9 +8,8 @@ import {
   TARGET_PAGE_NAME,
 } from "../routes/type";
 import { useAtom, useSetAtom } from "jotai/react";
-import { HEADER_TITLE_MATTER } from "../utils/text";
+import { HEADER_TITLE_MATTER } from "../modules/text";
 import { useEffect, useState, useMemo } from "react";
-import { DA } from "../data";
 import { Matter } from "../data/matter";
 import { FooterState, FooterStore } from "../store";
 import IconButton from "../ui/IconButton";
@@ -18,9 +17,11 @@ import { COLOR_HINT, COLOR_WHITE, GlobalStyle } from "../styles/const";
 import { HeaderStore } from "../store/header";
 import MatterItem from "../components/matter/MatterItem";
 import DraggableFlatList, {
+  DragEndParams,
   RenderItemParams,
 } from "react-native-draggable-flatlist";
 import { MatterStore } from "../store/matter";
+import { updateSortNum } from "../modules/matter/sort";
 
 export default function MatterPage() {
   /**
@@ -100,6 +101,11 @@ export default function MatterPage() {
     );
   };
 
+  const onResort = ({ data, to }: DragEndParams<Matter>) => {
+    updateSortNum(data, to);
+    setMatters(data);
+  };
+
   return (
     <View style={styles.page}>
       {matters.length === 0 ? (
@@ -111,9 +117,7 @@ export default function MatterPage() {
           data={matters}
           keyExtractor={(matter) => "matter-" + matter.matterId}
           renderItem={renderMatterItem}
-          onDragEnd={({ data }) => {
-            setMatters(data);
-          }}
+          onDragEnd={onResort}
         ></DraggableFlatList>
       )}
     </View>

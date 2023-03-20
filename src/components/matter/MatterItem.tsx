@@ -3,8 +3,8 @@ import { Matter } from "../../data/matter";
 import { OnPressCallback } from "../../ui";
 import IconButton from "../../ui/IconButton";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { icon } from "../../utils/icon";
-import { color } from "../../utils/color";
+import { icon } from "../../modules/icon";
+import { color } from "../../modules/color";
 import { COLOR_HINT, COLOR_WHITE } from "../../styles/const";
 import React from "react";
 
@@ -45,6 +45,8 @@ function MatterItem(props: MatterItemProps) {
         ) : null}
       </View>
       <View style={styles.right}>
+        {/* @TEST */}
+        <Text>{matter.sortNum}</Text>
         <IconButton iconName="play-circle-outline" onPress={onStartPress} />
       </View>
     </Pressable>
@@ -61,7 +63,6 @@ const styles = StyleSheet.create({
     height: 72,
     borderRadius: 4,
     backgroundColor: COLOR_WHITE,
-    // @FIX: if no margin, elevation will be covered
     elevation: 2,
     margin: 2,
   },

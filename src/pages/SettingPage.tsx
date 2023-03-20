@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { MainRouterNavigationProp } from "../routes/type";
 import { useSetAtom } from "jotai/react";
-import { HEADER_TITLE_SETTING } from "../utils/text";
+import { HEADER_TITLE_SETTING } from "../modules/text";
 import { FooterState, FooterStore } from "../store";
 import Header from "../components/Header";
 import { HeaderStore } from "../store/header";

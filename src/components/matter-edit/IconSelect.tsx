@@ -7,7 +7,7 @@ import {
   COLOR_LIGHT_BACKGROUND,
   COLOR_WHITE,
 } from "../../styles/const";
-import { icon, IconList } from "../../utils/icon";
+import { icon, IconList } from "../../modules/icon";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 export function useIconSelect(): [number, () => void] {

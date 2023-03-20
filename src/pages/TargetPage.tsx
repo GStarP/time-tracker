@@ -8,7 +8,7 @@ import {
   TARGET_EDIT_PAGE_NAME,
 } from "../routes/type";
 import { useSetAtom } from "jotai/react";
-import { HEADER_TITLE_TARGET } from "../utils/text";
+import { HEADER_TITLE_TARGET } from "../modules/text";
 import { FooterState, FooterStore } from "../store";
 import Header from "../components/Header";
 import IconButton from "../ui/IconButton";

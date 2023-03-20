@@ -5,7 +5,7 @@ import {
   COLOR_TEXT_SECONDARY,
   COLOR_WHITE,
 } from "../styles/const";
-import { COLOR_RED } from "../utils/color";
+import { COLOR_RED } from "../modules/color";
 import { EMPTY_FUNC } from "../utils/const";
 import TextButton from "./TextButton";
 
