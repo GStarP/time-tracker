@@ -100,6 +100,21 @@ export function SqliteDataAccessMatter(
       });
     }
 
+    function deleteMatter(matterId: number): Promise<void> {
+      return new Promise((resolve, reject) => {
+        db.transaction(
+          (tx) => {
+            tx.executeSql(
+              "DELETE FROM matters WHERE matterId = (?)",
+              [matterId],
+              () => resolve()
+            );
+          },
+          (e) => reject(e)
+        );
+      });
+    }
+
     /**
      * create table `matter` if not exists
      */
@@ -118,6 +133,7 @@ export function SqliteDataAccessMatter(
           insertMatter,
           updateMatter,
           updateMatterOrder,
+          deleteMatter,
         });
       }
     );

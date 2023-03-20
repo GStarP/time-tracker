@@ -10,15 +10,25 @@ import Animated, {
 
 interface ButtonProps {
   label: string;
+  icon?: string;
   color?: string;
+  height?: number;
+  fontSize?: number;
+  showArrow?: boolean;
   onPress?: () => void;
 }
 const DEFAULT_PROPS = {
   color: COLOR_BLACK,
+  height: 64,
+  fontSize: 16,
+  showArrow: true,
 };
 
 export default function Button(props: ButtonProps) {
-  const { label, color, onPress } = { ...DEFAULT_PROPS, ...props };
+  const { label, icon, color, height, fontSize, showArrow, onPress } = {
+    ...DEFAULT_PROPS,
+    ...props,
+  };
 
   const backgroundValue = useSharedValue(0);
   const backgroundAnimatedStyle = useAnimatedStyle(() => {
@@ -30,7 +40,6 @@ export default function Button(props: ButtonProps) {
       ),
     };
   });
-
   const pressInHandler = () => {
     backgroundValue.value = withTiming(1, {
       duration: 200,
@@ -45,17 +54,34 @@ export default function Button(props: ButtonProps) {
   return (
     <Animated.View style={backgroundAnimatedStyle}>
       <Pressable
-        style={styles.container}
+        style={[
+          styles.container,
+          {
+            height,
+          },
+        ]}
         onPress={onPress}
         onPressIn={pressInHandler}
         onPressOut={pressOutHandler}
       >
-        <Text style={[styles.label, { color }]}>{label}</Text>
-        <MaterialIcons
-          style={{ marginLeft: "auto" }}
-          name="arrow-forward-ios"
-          size={16}
-        ></MaterialIcons>
+        {icon ? (
+          <MaterialIcons
+            name={icon as any}
+            style={{ marginRight: 24 }}
+            color={color}
+            size={16}
+          ></MaterialIcons>
+        ) : null}
+
+        <Text style={[{ color, fontSize }]}>{label}</Text>
+
+        {showArrow ? (
+          <MaterialIcons
+            style={{ marginLeft: "auto" }}
+            name="arrow-forward-ios"
+            size={16}
+          ></MaterialIcons>
+        ) : null}
       </Pressable>
     </Animated.View>
   );
@@ -65,10 +91,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    height: 64,
     paddingHorizontal: 24,
-  },
-  label: {
-    fontSize: 16,
   },
 });

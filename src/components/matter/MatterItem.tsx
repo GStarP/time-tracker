@@ -13,6 +13,7 @@ interface MatterItemProps extends React.ComponentProps<typeof View> {
   trackedTime?: number;
   onStartPress?: OnPressCallback;
   onLongPress?: () => void;
+  onPress?: () => void;
 }
 const DEFAULT_PROPS = {
   trackedTime: 0,
@@ -25,13 +26,18 @@ function MatterItem(props: MatterItemProps) {
     trackedTime = DEFAULT_PROPS.trackedTime,
     onStartPress,
     onLongPress,
+    onPress,
   } = props;
 
   const iconName = icon(matter.matterIcon) as any;
   const iconColor = color(matter.matterColor);
 
   return (
-    <Pressable style={[styles.container, style]} onLongPress={onLongPress}>
+    <Pressable
+      style={[styles.container, style]}
+      onLongPress={onLongPress}
+      onPress={onPress}
+    >
       <Ionicons
         name={iconName}
         color={iconColor}
@@ -45,8 +51,6 @@ function MatterItem(props: MatterItemProps) {
         ) : null}
       </View>
       <View style={styles.right}>
-        {/* @TEST */}
-        <Text>{matter.sortNum}</Text>
         <IconButton iconName="play-circle-outline" onPress={onStartPress} />
       </View>
     </Pressable>

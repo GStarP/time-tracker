@@ -22,6 +22,10 @@ import DraggableFlatList, {
 } from "react-native-draggable-flatlist";
 import { MatterStore } from "../store/matter";
 import { updateSortNum } from "../modules/matter/sort";
+import { useMatterItemOperation } from "../components/matter/MatterItemOperation";
+import { errorDialogOptions, useDialog } from "../ui/Dialog";
+import { EMPTY_FUNC } from "../utils/const";
+import { DA } from "../data";
 
 export default function MatterPage() {
   /**
@@ -87,6 +91,32 @@ export default function MatterPage() {
    */
   const [matters, setMatters] = useAtom(MatterStore.matters);
 
+  const showMatterItemOperation = useMatterItemOperation();
+
+  const toEditPage = (matter: Matter) => {
+    navigation.navigate(MATTER_EDIT_PAGE_NAME, {
+      isEdit: true,
+      data: matter,
+    });
+  };
+
+  const [showDialog] = useDialog();
+  const deleteMatter = (matter: Matter) => {
+    showDialog({
+      content: `是否确认删除事务 ${matter.matterName}？`,
+    })
+      .then(async () => {
+        try {
+          const dao = DA();
+          await dao.deleteMatter(matter.matterId);
+          setMatters(await dao.getAllMatter());
+        } catch (e: any) {
+          showDialog(errorDialogOptions(e));
+        }
+      })
+      .catch(EMPTY_FUNC);
+  };
+
   const renderMatterItem = ({ item, drag }: RenderItemParams<Matter>) => {
     return (
       // @TODO add drag-active animation
@@ -97,6 +127,12 @@ export default function MatterPage() {
           console.log(item);
         }}
         onLongPress={drag}
+        onPress={() =>
+          showMatterItemOperation({
+            onEdit: () => toEditPage(item),
+            onDelete: () => deleteMatter(item),
+          })
+        }
       ></MatterItem>
     );
   };

@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { NavigatorScreenParams } from "@react-navigation/native";
+import { Matter } from "../data/matter";
 
 /**
  * route name
@@ -24,10 +25,10 @@ export const TARGET_PAGE_NAME = "Target";
  */
 export type MainRouterNavigationProp = NativeStackNavigationProp<{
   [FIRST_VIEW_PAGE_NAME]: NavigatorScreenParams<WithFooterRouteList>;
-  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit;
   [TIMER_CREATE_PAGE_NAME]: undefined;
-  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit;
-  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit;
+  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit<Matter>;
+  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit<unknown>;
+  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit<unknown>;
   [TIMER_PAGE_NAME]: undefined;
 }>;
 
@@ -48,11 +49,12 @@ export type MatterOrTargetRouteList = {
 /**
  * route param
  */
-export interface CreateOrEdit {
+export interface CreateOrEdit<T> {
   isEdit: boolean;
+  data?: T;
 }
 export type EditPageParam = {
-  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit;
-  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit;
-  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit;
+  [MATTER_EDIT_PAGE_NAME]: CreateOrEdit<Matter>;
+  [RECORD_EDIT_PAGE_NAME]: CreateOrEdit<unknown>;
+  [TARGET_EDIT_PAGE_NAME]: CreateOrEdit<unknown>;
 };

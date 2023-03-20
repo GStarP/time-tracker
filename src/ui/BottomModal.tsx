@@ -37,8 +37,6 @@ export function useShowBottomModal(): [
     // hideBottomModal
     () => {
       setBottomModalVisible(false);
-      setBottomModalTitle(undefined);
-      setBottomModalChild(null);
     },
   ];
 }
@@ -130,6 +128,9 @@ export default function BottomModal() {
                 styles.main,
                 {
                   top: animationTop.current,
+                },
+                {
+                  paddingTop: title ? 0 : 4,
                 },
               ]}
             >

@@ -1,19 +1,17 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { useShowBottomModal } from "../../ui/BottomModal";
 import { atom, useAtom } from "jotai";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import {
-  COLOR_BLACK,
-  COLOR_LIGHT_BACKGROUND,
-  COLOR_WHITE,
-} from "../../styles/const";
-import { icon, IconList } from "../../modules/icon";
+import { COLOR_BLACK, COLOR_LIGHT_BACKGROUND } from "../../styles/const";
+import { IconList } from "../../modules/icon";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-export function useIconSelect(): [number, () => void] {
+export function useIconSelect(defaultIconCode?: number): [number, () => void] {
   const [showBottomModal, _] = useShowBottomModal();
-  const [icon] = useAtom(IconSelectStore.selectedIcon);
-  return [icon, () => showBottomModal(<IconSelectContent />, "选择图标")];
+  const [iconCode, setIconCode] = useAtom(IconSelectStore.selectedIcon);
+
+  setIconCode(defaultIconCode ?? 0);
+
+  return [iconCode, () => showBottomModal(<IconSelectContent />, "选择图标")];
 }
 
 const IconSelectStore = {

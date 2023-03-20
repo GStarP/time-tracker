@@ -28,62 +28,55 @@ export default function MatterEditPage() {
   const navigation = useNavigation<MainRouterNavigationProp>();
   const route = useRoute<RouteProp<EditPageParam, "MatterEdit">>();
   const isEdit = route.params?.isEdit ?? false;
+  const data = route.params?.data;
 
   /**
    * create/edit matter
    */
-  const matterName = useRef("");
-  const [iconColor, showIconColorSelect] = useColorSelect();
-  const [iconName, showIconNameSelect] = useIconSelect();
+  const matterName = useRef(data?.matterName || "");
+  const [iconColorCode, showIconColorSelect] = useColorSelect(
+    data?.matterColor
+  );
+  const [iconCode, showIconSelect] = useIconSelect(data?.matterIcon);
 
   /**
    * confirm
    */
   const [showDialog] = useDialog();
   const [matters, setMatters] = useAtom(MatterStore.matters);
-  const onConfirm = () => {
-    if (isEdit) {
+  const onConfirm = async () => {
+    if (matterName.current === "") {
       showDialog({
-        content: "尚未实现",
-        confirmText: "",
+        content: "事务名称不能为空",
+        cancelText: "",
       });
-    } else {
-      if (matterName.current === "") {
-        showDialog({
-          content: "事务名称不能为空",
-          cancelText: "",
-        });
-        return;
-      }
-
-      showDialog({
-        content: "是否确认新建事务",
-      })
-        .then(async () => {
-          try {
-            const sortNum = getNewMatterSortNum(matters);
-
-            const dao = DA();
-            dao.insertMatter({
-              matterId: -1,
-              matterName: matterName.current,
-              matterIcon: iconName,
-              matterColor: iconColor,
-              sortNum,
-            });
-
-            // after insert, update immediately
-            // after update, insert complete
-            const newMatters = await dao.getAllMatter();
-            setMatters(newMatters);
-
-            navigation.goBack();
-          } catch (e: any) {
-            showDialog(errorDialogOptions(e));
-          }
-        })
-        .catch((e) => {});
+      return;
     }
+
+    const dao = DA();
+    try {
+      if (isEdit) {
+        await dao.updateMatter({
+          ...data!,
+          matterName: matterName.current,
+          matterColor: iconColorCode,
+          matterIcon: iconCode,
+        });
+      } else {
+        await dao.insertMatter({
+          matterId: -1,
+          matterName: matterName.current,
+          matterIcon: iconCode,
+          matterColor: iconColorCode,
+          sortNum: getNewMatterSortNum(matters),
+        });
+      }
+    } catch (e: any) {
+      showDialog(errorDialogOptions(e));
+    }
+
+    setMatters(await dao.getAllMatter());
+    navigation.goBack();
   };
 
   /**
@@ -111,11 +104,12 @@ export default function MatterEditPage() {
         >
           <Ionicons
             style={{ marginRight: 16 }}
-            name={icon(iconName) as any}
-            color={color(iconColor)}
+            name={icon(iconCode) as any}
+            color={color(iconColorCode)}
             size={24}
           />
           <TextInput
+            defaultValue={matterName.current}
             style={{ fontSize: 16 }}
             placeholder="点击输入事务名称"
             placeholderTextColor={COLOR_HINT}
@@ -125,7 +119,7 @@ export default function MatterEditPage() {
         </View>
 
         <Button label="更换颜色" onPress={showIconColorSelect}></Button>
-        <Button label="更换图标" onPress={showIconNameSelect}></Button>
+        <Button label="更换图标" onPress={showIconSelect}></Button>
       </View>
     </>
   );

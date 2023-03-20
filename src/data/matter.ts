@@ -14,4 +14,5 @@ export interface DataAccessMatter {
   insertMatter: (matter: Matter) => Promise<void>;
   updateMatter: (matter: Matter) => Promise<void>;
   updateMatterOrder: (matters: Matter[]) => Promise<void>;
+  deleteMatter: (matterId: number) => Promise<void>;
 }

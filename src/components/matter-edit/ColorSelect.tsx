@@ -1,14 +1,17 @@
 import { View, StyleSheet, Pressable } from "react-native";
 import { useShowBottomModal } from "../../ui/BottomModal";
-import { color, ColorList } from "../../modules/color";
+import { ColorList } from "../../modules/color";
 import { atom, useAtom } from "jotai";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { COLOR_WHITE } from "../../styles/const";
 
-export function useColorSelect(): [number, () => void] {
+export function useColorSelect(defaultColor?: number): [number, () => void] {
   const [showBottomModal, _] = useShowBottomModal();
-  const [color] = useAtom(ColorSelectStore.selectedColor);
-  return [color, () => showBottomModal(<ColorSelectContent />, "选择颜色")];
+  const [colorCode, setColorCode] = useAtom(ColorSelectStore.selectedColor);
+
+  setColorCode(defaultColor ?? 0);
+
+  return [colorCode, () => showBottomModal(<ColorSelectContent />, "选择颜色")];
 }
 
 const ColorSelectStore = {
